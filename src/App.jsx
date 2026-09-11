@@ -3,6 +3,7 @@ import "./App.css";
 import BookList from "./components/BookList";
 import Panel from "./components/Panel";
 import { books } from "./data/books";
+import BookForm from "./components/BookForm";
 
 export default function App() {
   const [bookList, setBookList] = useState(books);
@@ -10,16 +11,16 @@ export default function App() {
   function handleReserve(bookId) {
     setBookList((currentBooks) =>
       currentBooks.map((book) =>
-        book.id === bookId
-          ? { ...book, available: !book.available }
-          : book,
+        book.id === bookId ? { ...book, available: !book.available } : book,
       ),
     );
   }
 
-  const availableCount = bookList.filter(
-    (book) => book.available,
-  ).length;
+  function handleAddBook(newBook) {
+    setBookList((currentBooks) => [...currentBooks, newBook]);
+  }
+
+  const availableCount = bookList.filter((book) => book.available).length;
 
   return (
     <main className="app">
@@ -33,11 +34,12 @@ export default function App() {
         </p>
       </header>
 
+      <Panel title="Novo livro">
+        <BookForm onAddBook={handleAddBook} />
+      </Panel>
+
       <Panel title="Acervo">
-        <BookList
-          books={bookList}
-          onReserve={handleReserve}
-        />
+        <BookList books={bookList} onReserve={handleReserve} />
       </Panel>
     </main>
   );
