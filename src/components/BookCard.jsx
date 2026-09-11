@@ -1,10 +1,4 @@
-export default function BookCard({
-  id,
-  title,
-  author,
-  available,
-  onReserve,
-}) {
+export default function BookCard({ id, title, author, available, onReserve }) {
   return (
     <article className="book-card">
       <div>
@@ -13,19 +7,12 @@ export default function BookCard({
       </div>
 
       <div>
-        <span
-          className={`badge ${
-            available ? "badge-ok" : "badge-off"
-          }`}
-        >
+        <span className={`badge ${available ? "badge-ok" : "badge-off"}`}>
           {available ? "Disponível" : "Reservado"}
         </span>
 
-        <button
-          type="button"
-          onClick={() => onReserve(id)}
-        >
-          Reservar
+        <button type="button" onClick={() => onReserve(id)}>
+          {available ? "Reservar" : "Devolver"}
         </button>
       </div>
     </article>

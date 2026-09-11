@@ -1,14 +1,25 @@
+import { useState } from "react";
 import "./App.css";
 import BookList from "./components/BookList";
 import Panel from "./components/Panel";
 import { books } from "./data/books";
 
 export default function App() {
+  const [bookList, setBookList] = useState(books);
+
   function handleReserve(bookId) {
-    window.alert(
-      `Livro ${bookId} — ação ainda não implementada`,
+    setBookList((currentBooks) =>
+      currentBooks.map((book) =>
+        book.id === bookId
+          ? { ...book, available: !book.available }
+          : book,
+      ),
     );
   }
+
+  const availableCount = bookList.filter(
+    (book) => book.available,
+  ).length;
 
   return (
     <main className="app">
@@ -18,13 +29,13 @@ export default function App() {
         <h1>Reserva de livros do acervo.</h1>
 
         <p>
-          Consulte a disponibilidade e reserve o que precisar.
+          {availableCount} de {bookList.length} livros disponíveis.
         </p>
       </header>
 
       <Panel title="Acervo">
         <BookList
-          books={books}
+          books={bookList}
           onReserve={handleReserve}
         />
       </Panel>
