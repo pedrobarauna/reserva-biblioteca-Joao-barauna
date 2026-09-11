@@ -3,6 +3,7 @@ export default function BookCard({
   title,
   author,
   available,
+  onReserve,
 }) {
   return (
     <article className="book-card">
@@ -11,13 +12,22 @@ export default function BookCard({
         <p>{author}</p>
       </div>
 
-      <span
-        className={`badge ${
-          available ? "badge-ok" : "badge-off"
-        }`}
-      >
-        {available ? "Disponível" : "Reservado"}
-      </span>
+      <div>
+        <span
+          className={`badge ${
+            available ? "badge-ok" : "badge-off"
+          }`}
+        >
+          {available ? "Disponível" : "Reservado"}
+        </span>
+
+        <button
+          type="button"
+          onClick={() => onReserve(id)}
+        >
+          Reservar
+        </button>
+      </div>
     </article>
   );
 }
