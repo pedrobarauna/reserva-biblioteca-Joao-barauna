@@ -1,12 +1,34 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "./App.css";
 import BookList from "./components/BookList";
 import Panel from "./components/Panel";
 import { books } from "./data/books";
 import BookForm from "./components/BookForm";
 
+const STORAGE_KEY = "reserva-biblioteca:books";
+
+function loadBooks() {
+  const savedBooks = localStorage.getItem(STORAGE_KEY);
+
+  if (!savedBooks) {
+    return books;
+  }
+
+  try {
+    const parsedBooks = JSON.parse(savedBooks);
+
+    return Array.isArray(parsedBooks) ? parsedBooks : books;
+  } catch {
+    return books;
+  }
+}
+
 export default function App() {
-  const [bookList, setBookList] = useState(books);
+  const [bookList, setBookList] = useState(loadBooks);
+
+  useEffect(() => {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(bookList));
+  }, [bookList]);
 
   function handleReserve(bookId) {
     setBookList((currentBooks) =>
