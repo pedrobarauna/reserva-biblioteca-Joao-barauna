@@ -1,9 +1,10 @@
+import { useContext } from "react";
 import BookCard from "./BookCard";
+import BooksContext from "../context/BooksContext";
 
-export default function BookList({
-  books,
-  onReserve,
-}) {
+export default function BookList() {
+  const { books, toggleBook } = useContext(BooksContext);
+
   if (books.length === 0) {
     return <p>Nenhum livro no acervo.</p>;
   }
@@ -14,7 +15,7 @@ export default function BookList({
         <BookCard
           key={book.id}
           {...book}
-          onReserve={onReserve}
+          onReserve={toggleBook}
         />
       ))}
     </section>
